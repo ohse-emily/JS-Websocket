@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket</title>
+</head>
+
+<body>
+    <h1>Hello socket</h1>
+    <input type="text" id="msg">
+    <input type="button" id="btn" value="버튼">
+    <div id="content"></div>
+
+    <script type="text/javascript" src="./socket.io.js"></script>
+    <script type="text/javascript">
+
+        const socket = io();
+        const msg = document.querySelector('#msg');
+        const btn = document.querySelector('#btn');
+        const content = document.querySelector('#content');
+
+        socket.on('connect', () => {
+            msg.value = '연결 성공';
+        });
+        
+        btn.addEventListener('click', () => {
+            socket.emit('send', {msg:msg.value});
+            content.innerHTML += `${msg.value}<br>`;
+        });
+
+        socket.on('call', (data)=>{
+            content.innerHTML += `${data}<br/>`;
+        })
+
+    </script>
+</body>
+</html>
